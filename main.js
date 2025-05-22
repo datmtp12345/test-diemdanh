@@ -19,9 +19,24 @@ let loggedInAsAdmin = false;
 let autoChangeInterval = null;
 let autoChanging = true;
 
+let loginCode = "";
+
+db.ref("loginCode")
+  .once("value")
+  .then((snapshot) => {
+    const code = snapshot.exists() ? snapshot.val() : "";
+
+    loginCode = code;
+
+    console.log("Loaded loginCode:", loginCode);
+  })
+  .catch((error) => {
+    console.error("Error fetching loginCode:", error);
+  });
+
 function initCode() {
-  if (!localStorage.getItem("loginCode")) {
-    localStorage.setItem("loginCode", generateRandomCode());
+  if (loginCode !== "") {
+    db.ref("loginCode").set(generateRandomCode());
   }
 }
 
@@ -30,7 +45,7 @@ function generateRandomCode() {
 }
 
 function updateCodeDisplay() {
-  currentCodeDisplay.textContent = localStorage.getItem("loginCode") || "";
+  currentCodeDisplay.textContent = loginCode || "";
 }
 
 function startAutoChange() {
@@ -38,7 +53,7 @@ function startAutoChange() {
   autoChangeInterval = setInterval(() => {
     if (autoChanging) {
       const newCode = generateRandomCode();
-      localStorage.setItem("loginCode", newCode);
+      db.ref("loginCode").set(newCode);
       updateCodeDisplay();
       console.log("Mã tự động đổi thành:", newCode);
     }
@@ -70,7 +85,7 @@ changeCodeBtn.onclick = () => {
     alert("Vui lòng nhập mã mới.");
     return;
   }
-  localStorage.setItem("loginCode", newCode);
+  db.ref("loginCode").set(newCode);
   updateCodeDisplay();
   alert("Mã đã được cập nhật!");
   newCodeInput.value = "";
@@ -94,7 +109,7 @@ adminLoginBtn.onclick = () => {
 
 memberLoginBtn.onclick = () => {
   const inputCode = codeInput.value.trim();
-  const currentCode = localStorage.getItem("loginCode");
+  const currentCode = loginCode;
   if (!inputCode) {
     alert("Vui lòng nhập mã đăng nhập.");
     return;
