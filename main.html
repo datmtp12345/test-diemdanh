@@ -27,6 +27,26 @@
 </script>
 
 
+<script>
+  // Thời gian tính bằng mili giây (10 phút)
+  const AUTO_LOGOUT_TIME = 10 * 60 * 1000;
+
+  // Hàm đăng xuất
+  function autoLogout() {
+    alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+    localStorage.removeItem("loggedIn"); // Xóa trạng thái đăng nhập nếu có
+    window.location.href = "index.html"; // Chuyển về trang đăng nhập
+  }
+
+  // Bắt đầu đếm thời gian tự động đăng xuất
+  setTimeout(autoLogout, AUTO_LOGOUT_TIME);
+</script>
+
+<script>
+  if (localStorage.getItem("loggedIn") !== "member") {
+    window.location.href = "index.html";
+  }
+</script>
 
 
 
