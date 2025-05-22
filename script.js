@@ -1,6 +1,6 @@
 let storedMembers = JSON.parse(localStorage.getItem("members"));
 let members = storedMembers || [
-  { id: "HE204906", name: "Trần Tuấn Anh", team: 4, status: "Không có mặt" },
+    { id: "HE204906", name: "Trần Tuấn Anh", team: 4, status: "Không có mặt" },
   { id: "HS200273", name: "Nguyễn Đức Anh", team: 4, status: "Không có mặt" },
   { id: "HE201437", name: "Lê Quốc Đạt", team: 1, status: "Không có mặt" },
   { id: "HE205151", name: "Trần Khắc Đạt", team: 3, status: "Không có mặt" },
@@ -86,7 +86,7 @@ window.markAttendance = function (id) {
   }
 
   member.status = "Có mặt";
-   db.ref("members").set(members);
+  db.ref("members").set(members);
   attendanceHistory.push({ id: member.id, name: member.name, date: getCurrentDate() });
 
   localStorage.setItem("attendanceHistory", JSON.stringify(attendanceHistory));
@@ -177,6 +177,7 @@ window.resetAttendance = function () {
   attendanceHistory = [];
   localStorage.setItem("members", JSON.stringify(members));
   localStorage.removeItem("attendanceHistory");
+  db.ref("members").set(members);
   renderMembers();
 };
 
