@@ -1,5 +1,4 @@
-let storedMembers = JSON.parse(localStorage.getItem("members"));
-let members = storedMembers || [
+const defaultMembers = [
     { id: "HE204906", name: "Trần Tuấn Anh", team: 4, status: "Không có mặt" },
   { id: "HS200273", name: "Nguyễn Đức Anh", team: 4, status: "Không có mặt" },
   { id: "HE201437", name: "Lê Quốc Đạt", team: 1, status: "Không có mặt" },
@@ -30,6 +29,27 @@ let members = storedMembers || [
   { id: "HS200854", name: "Nguyễn Ngọc Ly Vân", team: 3, status: "Không có mặt" },
   { id: "HE200074", name: "Nguyễn Đức Minh", team: 1, status: "Không có mặt" }
 ];
+
+// declare the variable in outer scope
+let members;
+
+function loadMembers() {
+  return db
+    .ref("members")
+    .once("value")
+    .then((snap) => {
+      const stored = snap.exists() ? snap.val() : null;
+      return stored || defaultMembers;
+    });
+}
+
+loadMembers().then((members) => {
+  console.log("Members ready:", members);
+  // if you want, write default back to DB/localStorage:
+  if (!Array.isArray(members) || members === defaultMembers) {
+    db.ref("members").set(defaultMembers);
+  }
+});
 
 let isAdmin = false;
 let attendanceHistory = JSON.parse(localStorage.getItem("attendanceHistory")) || [];
@@ -90,8 +110,6 @@ window.markAttendance = function (id) {
   attendanceHistory.push({ id: member.id, name: member.name, date: getCurrentDate() });
 
   localStorage.setItem("attendanceHistory", JSON.stringify(attendanceHistory));
-  localStorage.setItem("members", JSON.stringify(members));
-
   renderMembers();
 };
 
@@ -152,7 +170,6 @@ window.addMember = function () {
   }
 
   members.push({ id, name, team, status: "Không có mặt" });
-  localStorage.setItem("members", JSON.stringify(members));
   renderMembers();
 
   document.getElementById("new-id").value = "";
@@ -165,7 +182,7 @@ window.removeMember = function (id) {
   const index = members.findIndex(m => m.id === id);
   if (index !== -1) {
     members.splice(index, 1);
-    localStorage.setItem("members", JSON.stringify(members));
+    db.ref("members").set(members);
     renderMembers();
   }
 };
@@ -175,7 +192,6 @@ window.resetAttendance = function () {
 
   members.forEach(m => m.status = "Không có mặt");
   attendanceHistory = [];
-  localStorage.setItem("members", JSON.stringify(members));
   localStorage.removeItem("attendanceHistory");
   db.ref("members").set(members);
   renderMembers();
