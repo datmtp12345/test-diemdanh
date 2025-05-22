@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Đăng nhập điểm danh</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background-image: url("pictures/Doraemon.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-color: #000;
+      color: #1e1e1e;
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      max-width: 400px;
+      margin: 80px auto;
+      border-radius: 16px;
+      padding: 32px 28px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.208);
+      color: #2b2b2b;
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.9rem;
+      color: #2a2a2a;
+      margin-bottom: 28px;
+    }
+
+    label {
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      display: block;
+      font-size: 0.95rem;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 1rem;
+      border: 1.6px solid #88b6ff;
+      background-color: rgba(255, 255, 255, 0.15);
+      color: #1e1e1e;
+      margin-bottom: 16px;
+    }
+
+    input::placeholder {
+      color: #888;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+    }
+
+    #member-login-btn,
+    #admin-login-btn {
+      background-color: #2a5bd7;
+      color: white;
+      margin-bottom: 16px;
+    }
+
+    #member-login-btn:hover,
+    #admin-login-btn:hover {
+      background-color: #1e43b3;
+    }
+
+    #toggle-mode-btn {
+      background-color: #e3ecff;
+      color: #2a5bd7;
+      font-weight: 600;
+      border: 1px solid #b2cbff;
+      margin-bottom: 25px;
+    }
+
+    #toggle-mode-btn:hover {
+      background-color: #c7dcff;
+    }
+
+    #admin-panel {
+      border-top: 1px solid #d9e1ff;
+      padding-top: 20px;
+      margin-top: 20px;
+    }
+
+    #auto-status {
+      font-weight: 600;
+      color: #2b2b2b;
+      margin-top: 10px;
+    }
+
+    #change-code-btn,
+    #toggle-auto-btn,
+    #back-to-member-btn {
+      background-color: rgba(255, 255, 255, 0.3);
+      color: #1f1f1f;
+      border: 1px solid #a0b6ff;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+    }
+
+    #change-code-btn:hover,
+    #toggle-auto-btn:hover,
+    #back-to-member-btn:hover {
+      background-color: rgba(255, 255, 255, 0.5);
+      color: #000;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>Đăng nhập điểm danh</h1>
+
+    <button id="toggle-mode-btn">Chuyển sang chế độ Admin</button>
+
+    <!-- Thành viên -->
+    <div id="member-section">
+      <label for="code-input">Nhập mã đăng nhập:</label>
+      <input id="code-input" type="text" placeholder="Mã đăng nhập..." autocomplete="off" />
+      <button id="member-login-btn">Đăng nhập thành viên</button>
+    </div>
+
+    <!-- Admin -->
+    <div id="admin-section" style="display:none;">
+      <label for="admin-email">Email Admin:</label>
+      <input id="admin-email" type="email" placeholder="Nhập email admin..." autocomplete="off" />
+      <button id="admin-login-btn">Đăng nhập Admin</button>
+
+      <div id="admin-panel" style="display:none;">
+        <p>Mã đăng nhập hiện tại: <span id="current-code-display"></span></p>
+
+        <label for="new-code-input">Thay đổi mã thủ công:</label>
+        <input id="new-code-input" type="text" placeholder="Nhập mã mới..." autocomplete="off" />
+        <button id="change-code-btn">Cập nhật mã mới</button>
+
+        <button id="toggle-auto-btn">Dừng tự động đổi mã</button>
+        <p id="auto-status">Tự động đổi mã: <span id="auto-state">Đang chạy</span></p>
+
+        <button id="back-to-member-btn">Quay lại phần Thành viên</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const ADMIN_EMAIL = "datmtp12345@gmail.com";
+
+    const toggleModeBtn = document.getElementById("toggle-mode-btn");
+    const memberSection = document.getElementById("member-section");
+    const adminSection = document.getElementById("admin-section");
+    const adminLoginBtn = document.getElementById("admin-login-btn");
+    const memberLoginBtn = document.getElementById("member-login-btn");
+    const adminEmailInput = document.getElementById("admin-email");
+    const adminPanel = document.getElementById("admin-panel");
+    const currentCodeDisplay = document.getElementById("current-code-display");
+    const newCodeInput = document.getElementById("new-code-input");
+    const changeCodeBtn = document.getElementById("change-code-btn");
+    const toggleAutoBtn = document.getElementById("toggle-auto-btn");
+    const autoState = document.getElementById("auto-state");
+    const codeInput = document.getElementById("code-input");
+    const backToMemberBtn = document.getElementById("back-to-member-btn");
+
+    let loggedInAsAdmin = false;
+    let autoChangeInterval = null;
+    let autoChanging = true;
+
+    function initCode() {
+      if (!localStorage.getItem("loginCode")) {
+        localStorage.setItem("loginCode", generateRandomCode());
+      }
+    }
+
+    function generateRandomCode() {
+      return Math.floor(10000 + Math.random() * 90000).toString();
+    }
+
+    function updateCodeDisplay() {
+      currentCodeDisplay.textContent = localStorage.getItem("loginCode") || "";
+    }
+
+    function startAutoChange() {
+      if (autoChangeInterval) clearInterval(autoChangeInterval);
+      autoChangeInterval = setInterval(() => {
+        if (autoChanging) {
+          const newCode = generateRandomCode();
+          localStorage.setItem("loginCode", newCode);
+          updateCodeDisplay();
+          console.log("Mã tự động đổi thành:", newCode);
+        }
+      }, 60000);
+      autoChanging = true;
+      autoState.textContent = "Đang chạy";
+      toggleAutoBtn.textContent = "Dừng tự động đổi mã";
+    }
+
+    function stopAutoChange() {
+      autoChanging = false;
+      autoState.textContent = "Đã dừng";
+      toggleAutoBtn.textContent = "Tiếp tục tự động đổi mã";
+    }
+
+    toggleAutoBtn.onclick = () => {
+      if (autoChanging) {
+        stopAutoChange();
+      } else {
+        autoChanging = true;
+        autoState.textContent = "Đang chạy";
+        toggleAutoBtn.textContent = "Dừng tự động đổi mã";
+      }
+    };
+
+    changeCodeBtn.onclick = () => {
+      const newCode = newCodeInput.value.trim();
+      if (!newCode) {
+        alert("Vui lòng nhập mã mới.");
+        return;
+      }
+      localStorage.setItem("loginCode", newCode);
+      updateCodeDisplay();
+      alert("Mã đã được cập nhật!");
+      newCodeInput.value = "";
+    };
+
+    adminLoginBtn.onclick = () => {
+      const email = adminEmailInput.value.trim().toLowerCase();
+      if (email === ADMIN_EMAIL) {
+        loggedInAsAdmin = true;
+        alert("Đăng nhập Admin thành công!");
+        adminPanel.style.display = "block";
+        adminEmailInput.disabled = true;
+        adminLoginBtn.disabled = true;
+        toggleModeBtn.style.display = "none";
+        updateCodeDisplay();
+        startAutoChange();
+      } else {
+        alert("Email không đúng, bạn không phải admin!");
+      }
+    };
+
+    memberLoginBtn.onclick = () => {
+      const inputCode = codeInput.value.trim();
+      const currentCode = localStorage.getItem("loginCode");
+      if (!inputCode) {
+        alert("Vui lòng nhập mã đăng nhập.");
+        return;
+      }
+      if (inputCode === currentCode) {
+        alert("Đăng nhập thành viên thành công!");
+        localStorage.setItem("loggedIn", "member");
+        window.location.href = "main.html";
+      } else {
+        alert("Mã đăng nhập không đúng!");
+      }
+    };
+
+    toggleModeBtn.onclick = () => {
+      if (memberSection.style.display !== "none") {
+        memberSection.style.display = "none";
+        adminSection.style.display = "block";
+        toggleModeBtn.textContent = "Chuyển sang chế độ Thành viên";
+      } else {
+        memberSection.style.display = "block";
+        adminSection.style.display = "none";
+        toggleModeBtn.textContent = "Chuyển sang chế độ Admin";
+      }
+    };
+
+    backToMemberBtn.onclick = () => {
+      loggedInAsAdmin = false;
+      adminPanel.style.display = "none";
+      adminEmailInput.disabled = false;
+      adminEmailInput.value = "";
+      adminLoginBtn.disabled = false;
+
+      toggleModeBtn.style.display = "inline-block";
+
+      adminSection.style.display = "none";
+      memberSection.style.display = "block";
+      toggleModeBtn.textContent = "Chuyển sang chế độ Admin";
+    };
+
+    window.onload = () => {
+      initCode();
+      updateCodeDisplay();
+    };
+  </script>
+
+</body>
+
+</html>
