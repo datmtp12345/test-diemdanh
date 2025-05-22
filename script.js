@@ -209,7 +209,11 @@ window.resetAttendance = function () {
   renderMembers();
 };
 
+
 // mớimới
+if (!localStorage.getItem("loggedIn")) {
+  window.location.href = "index.html";
+}
 // Ghi lên Firebase
 // Lắng nghe thay đổi
 db.ref("members").on("value", snapshot => {
