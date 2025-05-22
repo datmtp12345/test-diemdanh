@@ -60,12 +60,16 @@ function getCurrentDate() {
 
 function renderMembers() {
   const memberList = document.getElementById("member-list");
-  const stats = document.getElementById("member-stats");
+  const stats       = document.getElementById("member-stats");
   memberList.innerHTML = "";
+
+  // 1. Create a sorted copy of members by team ascending
+  const sortedMembers = members.slice().sort((a, b) => a.team - b.team);
 
   let presentCount = 0;
 
-  members.forEach(member => {
+  // 2. Render from the sorted array
+  sortedMembers.forEach(member => {
     if (member.status === "Có mặt") presentCount++;
 
     const row = document.createElement("tr");
@@ -74,16 +78,27 @@ function renderMembers() {
       <td>${member.name}</td>
       <td>${member.team}</td>
       <td>
-        <button id="btn-${member.id}" class="button ${member.status === "Có mặt" ? "present" : "absent"}"
-          onclick="markAttendance('${member.id}')">${member.status}</button>
+        <button id="btn-${member.id}"
+                class="button ${member.status === "Có mặt" ? "present" : "absent"}"
+                onclick="markAttendance('${member.id}')">
+          ${member.status}
+        </button>
       </td>
-      <td>${isAdmin ? `<button class="button remove" onclick="removeMember('${member.id}')">Xóa</button>` : ""}</td>
+      <td>
+        ${isAdmin
+          ? `<button class="button remove"
+                     onclick="removeMember('${member.id}')">Xóa</button>`
+          : ""}
+      </td>
     `;
     memberList.appendChild(row);
   });
 
-  stats.textContent = `Tổng thành viên: ${members.length} | Đã điểm danh: ${presentCount}`;
+  // 3. Update stats
+  stats.textContent = 
+    `Tổng thành viên: ${members.length} | Đã điểm danh: ${presentCount}`;
 }
+
 
 window.adminLogin = function () {
   const email = document.getElementById("admin-email").value;
