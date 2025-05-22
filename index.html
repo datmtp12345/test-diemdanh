@@ -1,47 +1,45 @@
 <!DOCTYPE html>
-<!-- Firebase App (Core) -->
+<script type="module" src="main.js"></script>
+
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-
-<!-- If you use analytics -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-analytics-compat.js"></script>
-
-<!-- Realtime Database -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 
 <script>
+  // Firebase config
   const firebaseConfig = {
-    apiKey: "AIzaSyD4ai4cQrxYJfORWKQJW1I8oPsEqkFWeLE",
-    authDomain: "datdeptrai-ba1fe.firebaseapp.com",
-    databaseURL: "https://datdeptrai-ba1fe-default-rtdb.firebaseio.com",
-    projectId: "datdeptrai-ba1fe",
-    storageBucket: "datdeptrai-ba1fe.appspot.com",
-    messagingSenderId: "18796313146",
-    appId: "1:18796313146:web:fb9d17f0e3de2948199303",
-    measurementId: "G-D5NY3N453V"
+    apiKey: "AIzaSyB0v3X_mE03EqefoTKnsY6yWRAs_b6Qf5k",
+    authDomain: "diemdanh-1d0ca.firebaseapp.com",
+    projectId: "diemdanh-1d0ca",
+    storageBucket: "diemdanh-1d0ca.firebasestorage.app",
+    messagingSenderId: "154072714351",
+    appId: "1:154072714351:web:04f88014f0c32e58c6119a",
+    measurementId: "G-M84JPBXGXC"
   };
 
-  // Initialize Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const analytics = firebase.analytics();
-  const database = firebase.database();
+  // Khởi tạo Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  // Khởi tạo Realtime Database
+  const db = firebase.database();
 </script>
-<script>
-  database.ref("test").set({
-    message: "Firebase is working!"
-  });
-</script>
+
 
 
 
 
 
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Điểm danh - THUNDERBOLT 08</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
   <div class="container">
     <h1>Danh sách điểm danh - THUNDERBOLT 08</h1>
@@ -95,4 +93,5 @@
 
   <script src="script.js"></script>
 </body>
+
 </html>
