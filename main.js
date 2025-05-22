@@ -151,3 +151,11 @@ window.onload = () => {
   initCode();
   updateCodeDisplay();
 };
+
+db.ref("loginCode").on("value", snapshot => {
+  const data = snapshot.val();
+  if (data) {
+    loginCode = data;
+    updateCodeDisplay();
+  }
+});
