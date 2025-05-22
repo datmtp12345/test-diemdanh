@@ -63,12 +63,10 @@ function renderMembers() {
   const stats       = document.getElementById("member-stats");
   memberList.innerHTML = "";
 
-  // 1. Create a sorted copy of members by team ascending
   const sortedMembers = members.slice().sort((a, b) => a.team - b.team);
 
   let presentCount = 0;
 
-  // 2. Render from the sorted array
   sortedMembers.forEach(member => {
     if (member.status === "Có mặt") presentCount++;
 
@@ -94,7 +92,6 @@ function renderMembers() {
     memberList.appendChild(row);
   });
 
-  // 3. Update stats
   stats.textContent = 
     `Tổng thành viên: ${members.length} | Đã điểm danh: ${presentCount}`;
 }
