@@ -8,11 +8,13 @@ body {
 .container {
   max-width: 900px;
   margin: 20px auto;
-  background: rgba(255, 253, 253, 0.926); /* độ mờ */
+  background: rgba(255, 253, 253, 0.411); /* độ mờ */
   padding: 20px 30px;
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
-  
+  border: 1px solid rgba(255, 255, 255, 0.2);
+   backdrop-filter: blur(12px);
+   font-weight: 500;
 }
 
 h1, h2 {
@@ -37,7 +39,26 @@ button {
   background-color: #3498db;
   color: white;
   border: none;
-  transition: 0.2s;
+  border-radius: 12px;
+  padding: 8px 15px;
+  font-weight: bold;
+  font-size: 0,1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng khi hover */
+button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Hiệu ứng khi nhấn */
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 button:hover {
