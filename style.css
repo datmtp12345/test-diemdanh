@@ -8,21 +8,24 @@ body {
 .container {
   max-width: 900px;
   margin: 20px auto;
-  background: rgba(255, 253, 253, 0.411); /* độ mờ */
+  background: rgba(255, 253, 253, 0.411);
+  /* độ mờ */
   padding: 20px 30px;
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
-   backdrop-filter: blur(12px);
-   font-weight: 500;
+  backdrop-filter: blur(12px);
+  font-weight: 500;
 }
 
-h1, h2 {
+h1,
+h2 {
   text-align: center;
   color: #2c3e50;
 }
 
-input, button {
+input,
+button {
   padding: 8px 12px;
   margin: 6px 4px;
   border-radius: 6px;
@@ -42,7 +45,7 @@ button {
   border-radius: 12px;
   padding: 8px 15px;
   font-weight: bold;
-  font-size: 0,1rem;
+  font-size: 0, 1rem;
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
@@ -98,7 +101,8 @@ thead {
   background-color: #ecf0f1;
 }
 
-th, td {
+th,
+td {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid #ddd;
@@ -124,23 +128,139 @@ th, td {
     flex-direction: column;
   }
 
-  input, button {
+  input,
+  button {
     width: 100%;
   }
 
-  table, th, td {
+  table,
+  th,
+  td {
     font-size: 12px;
   }
 }
 
 
 body {
-  background-image: url("pictures/Doraemon.jpg");
-  background-size: cover;       /* ảnh phủ đầy màn hình */
-  background-position: center;  /* căn giữa ảnh */
-  background-repeat: no-repeat; /* không lặp lại ảnh */
-  background-attachment: fixed; /* ảnh cố định khi cuộn trang */
+  background-image: url("pictures/Doraemon2.jpg");
+  background-size: cover;
+  /* ảnh phủ đầy màn hình */
+  background-position: center;
+  /* căn giữa ảnh */
+  background-repeat: no-repeat;
+  /* không lặp lại ảnh */
+  background-attachment: fixed;
+  /* ảnh cố định khi cuộn trang */
   /* Có thể thêm màu nền dự phòng */
-  background-color: #000;       
-  color: #000000;                  /* đổi màu chữ cho dễ nhìn */
+  background-color: #000;
+  color: #000000;
+  /* đổi màu chữ cho dễ nhìn */
+  padding: 20px;
+  transition: background-image 0.2s ease-in-out
+}
+
+
+/* nút nhạc */
+#musicButton {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 8px 15px;
+  font-weight: bold;
+  font-size: 0, 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+/* Hiệu ứng khi hover */
+#musicButton:hover {
+  background: linear-gradient(90deg, rgb(56, 139, 217), rgba(235, 64, 55, 0.66));
+  transform: scale(1.1);
+}
+
+/* Hiệu ứng khi nhấn */
+#musicButton:active {
+  transform: scale(0.9);
+}
+
+/* Hoạt ảnh xuất hiện của nút */
+#musicButton.show {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.flex-container {
+  display: flex;
+  /* Kích hoạt flexbox */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  gap: 15px;
+  /* Khoảng cách giữa các phần tử */
+  flex-wrap: wrap;
+  /*xuống dòng khi dòng quá dài */
+}
+
+input,
+button {
+  padding: 7px;
+  font-size: 14px;
+  text-align: center;
+}
+
+
+#musicButton {
+  display: none;
+}
+
+/* Hiệu ứng rung nhẹ */
+@keyframes shake {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  25% {
+    transform: translate(2px, -2px);
+  }
+
+  50% {
+    transform: translate(-2px, 2px);
+  }
+
+  75% {
+    transform: translate(2px, 2px);
+  }
+}
+
+/* Hiệu ứng nhấp nháy sáng */
+@keyframes flashBrightness {
+
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.5);
+  }
+}
+
+h2 {
+  font-size: 2rem;
+  color: #333;
+  transition: opacity 0.3s ease-in-out;
 }
