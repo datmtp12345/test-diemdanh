@@ -488,6 +488,3 @@ setInterval(changeText, 5000);
 
 
 // mớimới
-if (!localStorage.getItem("loggedIn")) {
-  window.location.href = "index.html";
-}

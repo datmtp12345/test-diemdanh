@@ -28,24 +28,37 @@
 
 
 <script>
-  // Thời gian tính bằng mili giây (10 phút)
-  const AUTO_LOGOUT_TIME = 10 * 60 * 1000;
+  // Kiểm tra trạng thái đăng nhập
+  if (localStorage.getItem("loggedIn") !== "true") {
+    window.location.href = "index.html";
+  }
+
+  // Thời gian tự động đăng xuất (10 phút)
+  const AUTO_LOGOUT_TIME = 5 * 60 * 1000 ;
+  let logoutTimer;
 
   // Hàm đăng xuất
   function autoLogout() {
     alert("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
-    localStorage.removeItem("loggedIn"); // Xóa trạng thái đăng nhập nếu có
-    window.location.href = "index.html"; // Chuyển về trang đăng nhập
-  }
-
-  // Bắt đầu đếm thời gian tự động đăng xuất
-  setTimeout(autoLogout, AUTO_LOGOUT_TIME);
-</script>
-
-<script>
-  if (localStorage.getItem("loggedIn") !== "member") {
+    localStorage.removeItem("loggedIn");
     window.location.href = "index.html";
   }
+
+  // Reset bộ đếm mỗi khi người dùng tương tác
+  function resetTimer() {
+    clearTimeout(logoutTimer);
+    logoutTimer = setTimeout(autoLogout, AUTO_LOGOUT_TIME);
+  }
+
+  // Khởi động sau khi trang tải xong
+  window.addEventListener("load", () => {
+    resetTimer();
+
+    document.addEventListener("mousemove", resetTimer);
+    document.addEventListener("keypress", resetTimer);
+    document.addEventListener("click", resetTimer);
+    document.addEventListener("scroll", resetTimer); // tùy chọn thêm
+  });
 </script>
 
 
